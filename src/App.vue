@@ -9,6 +9,7 @@
           placeholder=" Make a ....."
           v-model="input_content"
         />
+        <p class="text_err">{{ err_content }}</p>
         <h4>Pick a category</h4>
         <div class="options">
           <label>
@@ -32,6 +33,7 @@
             <div>Sport</div>
           </label>
         </div>
+        <p class="text_err">{{ err_category }}</p>
 
         <input type="submit" value="Add todo" />
       </form>
@@ -71,6 +73,8 @@ let name = ref("");
 
 const input_content = ref("");
 const input_category = ref(null);
+const err_content = ref("");
+const err_category = ref("");
 
 const todo_asc = computed(() =>
   todos.value.sort((a, b) => {
@@ -79,6 +83,12 @@ const todo_asc = computed(() =>
 );
 
 const addTodo = () => {
+  if (input_content.value.trim() === "") {
+    err_content.value = "ban can nhap todo";
+  }
+  if (input_category.value === null) {
+    err_category.value = "ban can chon 1 trong 2 category";
+  }
   if (input_content.value.trim() === "" || input_category.value === null) {
     return;
   }
@@ -92,6 +102,8 @@ const addTodo = () => {
 
   input_category.value = null;
   input_content.value = "";
+  err_content.value = "";
+  err_category.value = "";
 };
 
 const handleRemoveTodo = (todo) => {
